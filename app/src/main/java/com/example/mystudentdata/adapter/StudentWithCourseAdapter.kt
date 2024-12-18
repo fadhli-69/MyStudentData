@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.dicoding.mystudentdata.databinding.ItemStudentBinding
 import com.example.mystudentdata.database.StudentWithCourse
+import com.example.mystudentdata.databinding.ItemStudentBinding
 
 class StudentWithCourseAdapter :
     ListAdapter<StudentWithCourse, StudentWithCourseAdapter.WordViewHolder>(

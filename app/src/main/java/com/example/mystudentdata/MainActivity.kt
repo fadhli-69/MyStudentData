@@ -7,12 +7,11 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dicoding.mystudentdata.R
-import com.dicoding.mystudentdata.databinding.ActivityMainBinding
 import com.example.mystudentdata.adapter.StudentAndUniversityAdapter
 import com.example.mystudentdata.adapter.StudentListAdapter
 import com.example.mystudentdata.adapter.StudentWithCourseAdapter
 import com.example.mystudentdata.adapter.UniversityAndStudentAdapter
+import com.example.mystudentdata.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -64,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         val adapter = StudentListAdapter()
         binding.rvStudent.adapter = adapter
         mainViewModel.getAllStudent().observe(this) {
+            it.forEach(::println)
             adapter.submitList(it)
         }
     }
