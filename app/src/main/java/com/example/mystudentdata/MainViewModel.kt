@@ -1,27 +1,39 @@
 package com.example.mystudentdata
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.switchMap
 import com.example.mystudentdata.database.Student
 import com.example.mystudentdata.database.StudentAndUniversity
 import com.example.mystudentdata.database.StudentWithCourse
 import com.example.mystudentdata.database.UniversityAndStudent
+import com.example.mystudentdata.helper.SortType
 
 class MainViewModel(private val studentRepository: StudentRepository) : ViewModel() {
+    private val _sort = MutableLiveData<SortType>()
 
-//    init {
-//        insertAllData()
-//    }
+    init {
+        _sort.value = SortType.ASCENDING
+    }
 
-    fun getAllStudent(): LiveData<List<Student>> = studentRepository.getAllStudent()
-    fun getAllStudentAndUniversity(): LiveData<List<StudentAndUniversity>> = studentRepository.getAllStudentAndUniversity()
-    fun getAllUniversityAndStudent(): LiveData<List<UniversityAndStudent>> = studentRepository.getAllUniversityAndStudent()
-    fun getAllStudentWithCourse(): LiveData<List<StudentWithCourse>> = studentRepository.getAllStudentWithCourse()
+    fun changeSortType(sortType: SortType) {
+        _sort.value = sortType
+    }
 
-//    private fun insertAllData() = viewModelScope.launch {
-//        studentRepository.insertAllData()
-//    }
+    fun getAllStudent(): LiveData<List<Student>> = _sort.switchMap {
+        studentRepository.getAllStudent(it)
+    }
+
+    fun getAllStudentAndUniversity(): LiveData<List<StudentAndUniversity>> =
+        studentRepository.getAllStudentAndUniversity()
+
+    fun getAllUniversityAndStudent(): LiveData<List<UniversityAndStudent>> =
+        studentRepository.getAllUniversityAndStudent()
+
+    fun getAllStudentWithCourse(): LiveData<List<StudentWithCourse>> =
+        studentRepository.getAllStudentWithCourse()
 }
 
 class ViewModelFactory(private val repository: StudentRepository) : ViewModelProvider.Factory {
